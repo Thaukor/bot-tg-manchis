@@ -25,7 +25,8 @@ def start(update: Update, context: CallbackContext) -> None:
         chat_id=update.effective_chat.id, text="Sonidos de manchi exigente"
     )
 
-def get_image_url(url: str) -> str: # Conseguir el url de una imagen
+def get_image_url(url: str) -> str:
+    """Consigue URL de una imagen"""
     contents = requests.get(url).json()
     img: str = contents['file']
     return img
@@ -46,6 +47,7 @@ def get_random(url: str) -> str:
     return img
 
 def random_cat(update: Update, context: CallbackContext) -> None:
+    """Envía un gato aleatorio"""
     url = get_image_url(RANDOM_CAT_API)
     chat_id = update.message.chat_id
     context.bot.send_photo(chat_id=chat_id, photo=url, caption="Sonidos de manchi observadora")
