@@ -14,7 +14,7 @@ MANCHI_IMG_SEARCH_MSG: list[str] = [
     "_Manchi buscando entre sus patitas_",
     "_*Mrra*_",
     "_*Mrffs*_",
-    "_*Manchi moviendo cola_",
+    "_Manchi moviendo cola_",
     "_Manchi buscando en su extensión de cola_",
 ]
 MANCHI_IMAGE_SEND_CAPTIONS: list[str] = [
@@ -26,10 +26,10 @@ MANCHI_IMAGE_SEND_CAPTIONS: list[str] = [
     "_Manchi observa patita de gato_",
 ]
 
-updater = None
+updater: Updater = None
 with open('token', 'r') as token:
     updater = Updater(token=token.read(), use_context=True) # Leer token
-dispatcher = updater.dispatcher # Facilitar acceso a dispatcher
+dispatcher: telegram.ext.Dispatcher = updater.dispatcher # Facilitar acceso a dispatcher
 
 help_text = """Manchi confundida. No sabe ayudar."""
 def help(update: Update, context: CallbackContext):
@@ -91,10 +91,10 @@ start_handler = CommandHandler("start", start)
 # Registrar handler
 dispatcher.add_handler(start_handler)
 
-random_cat_handler = CommandHandler('cat', random_cat)
+random_cat_handler = CommandHandler('cat', random_cat, run_async=True)
 dispatcher.add_handler(random_cat_handler)
 
-random_shiba_handler = CommandHandler('shiba', random_shiba)
+random_shiba_handler = CommandHandler('shiba', random_shiba, run_async=True)
 dispatcher.add_handler(random_shiba_handler)
 
 # Recibir actualizaciones de Telegram
