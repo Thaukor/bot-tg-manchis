@@ -3,17 +3,34 @@ import telegram.ext
 
 from telegram.ext import Updater, CallbackContext, CommandHandler, CallbackQueryHandler, ConversationHandler, Filters, JobQueue
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+import random
 import requests
 import re
 
 RANDOM_CAT_API = "https://apilist.fun/out/randomcat"
+MANCHI_IMG_SEARCH_MSG: list[str] = [
+    "_Manchi entra al baúl de imágenes_",
+    "_Manchi buscando entre sus patitas_",
+    "_*Mrra*_",
+    "_*Mrffs*_",
+    "_*Manchi moviendo cola_",
+    "_Manchi buscando en su extensión de cola_",
+]
+MANCHI_IMAGE_SEND_CAPTIONS: list[str] = [
+    "_Sonidos de Manchi observadora_",
+    "_Manchi juzgando_",
+    "_*Mrrfs*_",
+    "_Manchi exigiendo atención_",
+    "_Manchi exige snack junto a la imagen_",
+    "_Manchi observa patita de gato_",
+]
 
 updater = None
 with open('token', 'r') as token:
     updater = Updater(token=token.read(), use_context=True) # Leer token
 dispatcher = updater.dispatcher # Facilitar acceso a dispatcher
 
-help_text = """Inserte ayuda del bot aquí"""
+help_text = """Manchi confundida. No sabe ayudar."""
 def help(update: Update, context: CallbackContext):
     context.bot.send_message(
         chat_id=update.effective_chat.id, text=help_text
@@ -48,10 +65,12 @@ def get_random(url: str) -> str:
 
 def random_cat(update: Update, context: CallbackContext) -> None:
     """Envía un gato aleatorio"""
-    url = get_image_url(RANDOM_CAT_API)
     chat_id = update.message.chat_id
-    context.bot.send_photo(chat_id=chat_id, photo=url, caption="Sonidos de manchi observadora")
-
+    msg_id = context.bot.send_message(chat_id=chat_id, text=random.choice(MANCHI_IMG_SEARCH_MSG), parse_mode='MarkdownV2')['message_id']
+    url = get_image_url(RANDOM_CAT_API)
+    context.bot.send_photo(chat_id=chat_id, photo=url, caption=random.choice(MANCHI_IMAGE_SEND_CAPTIONS), parse_mode='MarkdownV2')
+    context.bot.delete_message(chat_id=chat_id, message_id=msg_id)
+    
 # Handler del comando start. Cuando alguien escriba /start, esta función se ejecutará
 start_handler = CommandHandler("start", start)
 # Registrar handler
