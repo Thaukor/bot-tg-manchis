@@ -79,10 +79,9 @@ def random_cat(update: Update, context: CallbackContext) -> None:
     context.bot.delete_message(chat_id=chat_id, message_id=msg_id)
 
 def random_shiba(update: Update, context: CallbackContext) -> None:
-    url = get_shiba_url(RANDOM_SHIBA_API)
     chat_id = update.message.chat_id
     msg_id = context.bot.send_message(chat_id=chat_id, text=random.choice(MANCHI_IMG_SEARCH_MSG), parse_mode='MarkdownV2')['message_id']
-    url = get_image_url(RANDOM_CAT_API)
+    url = get_shiba_url(RANDOM_SHIBA_API)
     context.bot.send_photo(chat_id=chat_id, photo=url, caption=random.choice(MANCHI_IMAGE_SEND_CAPTIONS), parse_mode='MarkdownV2')
     context.bot.delete_message(chat_id=chat_id, message_id=msg_id)
 
