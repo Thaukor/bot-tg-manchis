@@ -13,7 +13,7 @@ MANCHI_IMG_SEARCH_MSG: list[str] = [
     "_Manchi buscando entre sus patitas_",
     "_*Mrra*_",
     "_*Mrffs*_",
-    "_*Manchi moviendo cola_",
+    "_Manchi moviendo cola_",
     "_Manchi buscando en su extensión de cola_",
 ]
 MANCHI_IMAGE_SEND_CAPTIONS: list[str] = [
