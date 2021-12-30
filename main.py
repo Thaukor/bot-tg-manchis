@@ -72,6 +72,9 @@ dispatcher.add_handler(start_handler)
 random_cat_handler = CommandHandler('cat', random_cat)
 dispatcher.add_handler(random_cat_handler)
 
+random_shiba_handler = CommandHandler('shiba', random_shiba)
+dispatcher.add_handler(random_shiba_handler)
+
 # Recibir actualizaciones de Telegram
 updater.start_polling()
 
