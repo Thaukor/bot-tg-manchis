@@ -6,7 +6,7 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 import requests
 import re
 
-RANDOM_CAT_API = ""
+RANDOM_CAT_API = "https://apilist.fun/out/randomcat"
 
 updater = None
 with open('token', 'r') as token:
@@ -27,7 +27,7 @@ def start(update: Update, context: CallbackContext) -> None:
 
 def get_image_url(url: str) -> str: # Conseguir el url de una imagen
     contents = requests.get(url).json()
-    img: str = contents['url']
+    img: str = contents['file']
     return img
 
 def get_random(url: str) -> str:
@@ -45,14 +45,18 @@ def get_random(url: str) -> str:
         atmps += 1
     return img
 
-def random(update: Update, context: CallbackContext) -> None:
-    """Envía un gato random"""
+def random_cat(update: Update, context: CallbackContext) -> None:
+    url = get_image_url(RANDOM_CAT_API)
+    chat_id = update.message.chat_id
+    context.bot.send_photo(chat_id=chat_id, photo=url, caption="Sonidos de manchi observadora")
 
 # Handler del comando start. Cuando alguien escriba /start, esta función se ejecutará
 start_handler = CommandHandler("start", start)
 # Registrar handler
 dispatcher.add_handler(start_handler)
 
+random_cat_handler = CommandHandler('cat', random_cat)
+dispatcher.add_handler(random_cat_handler)
 
 # Recibir actualizaciones de Telegram
 updater.start_polling()
