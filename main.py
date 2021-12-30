@@ -6,6 +6,7 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 import requests
 import re
 
+RANDOM_SHIBA_API = "http://shibe.online/api/shibes"
 RANDOM_CAT_API = "https://apilist.fun/out/randomcat"
 
 updater = None
@@ -31,6 +32,12 @@ def get_image_url(url: str) -> str:
     img: str = contents['file']
     return img
 
+def get_shiba_url(url: str) -> str:
+    """Consigue URL de una imagen"""
+    contents = requests.get(url).json()
+    img: str = contents[0]
+    return img
+
 def get_random(url: str) -> str:
     """Recibe imágenes hasta conseguir una con la extensión permitida"""
     allowed_extension = ['jpg','jpeg','png']
@@ -49,6 +56,11 @@ def get_random(url: str) -> str:
 def random_cat(update: Update, context: CallbackContext) -> None:
     """Envía un gato aleatorio"""
     url = get_image_url(RANDOM_CAT_API)
+    chat_id = update.message.chat_id
+    context.bot.send_photo(chat_id=chat_id, photo=url, caption="Sonidos de manchi observadora")
+
+def random_shiba(update: Update, context: CallbackContext) -> None:
+    url = get_shiba_url(RANDOM_SHIBA_API)
     chat_id = update.message.chat_id
     context.bot.send_photo(chat_id=chat_id, photo=url, caption="Sonidos de manchi observadora")
 
